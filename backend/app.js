@@ -43,6 +43,7 @@ app.get('/protected',requirelogin,(req, res) => {
 
 app.use('/auth/',require('./routes/auth'));
 app.use('/post/',require('./routes/post'));
+app.use('/profile/',require('./routes/user'));
 
 app.listen(PORT,() => {
     console.log(`Server is running on Port no http://localhost:${PORT}`);

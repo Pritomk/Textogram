@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 
 const Home = () => {
@@ -6,6 +7,7 @@ const Home = () => {
     const { state, dispatch } = useContext(UserContext);
 
     const [data, setData] = useState([]);
+    
     useEffect(() => {
         fetch("http://localhost:5000/post/allposts", {
             headers: {
@@ -116,7 +118,7 @@ const Home = () => {
                 data.map(item => {
                     return (
                         <div className="card home-card">
-                            <h5 className="post-user">{item.postedBy.name}
+                            <h5 className="post-user"> <Link to={item.postedBy._id !== state._id ? `/profile/${item.postedBy._id}` : `/profile`}>{item.postedBy.name}</Link>
                                 {item.postedBy._id === state._id &&
                                     <i class="material-icons" style={{ float: "right", cursor: "pointer" }} onClick={() => deletePost(item._id)}>delete</i>
                                 }
@@ -138,14 +140,14 @@ const Home = () => {
                             </div>
                             <div className="card-content">
                                 <h6>{item.likes.length} likes</h6>
-                                <h6>{item.title}</h6>
-                                <p>{item.body}</p>
+                                <h6 className="post-title">{item.title}</h6>
+                                <p className="post-desc">{item.body}</p>
                                 {
                                     item.comments.map(record => {
                                         console.log(record.postedBy);
                                         return (
-                                            <h6><span>{record.postedBy.name}</span> <span>{record.text}</span></h6>
-
+                                            <h6 className="comment-body"><span className="comment-user">{record.postedBy.name}</span>
+                                             <span className="comment-text">{record.text}</span></h6>
                                         )
                                     })
                                 }
