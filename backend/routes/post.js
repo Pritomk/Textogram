@@ -40,12 +40,22 @@ router.get("/allposts", requirelogin, (req,res)=> {
     }).catch(err=> console.log(err));
 });
 
+router.get("/getsubposts", requirelogin, (req,res)=> {
+    Post.find({postedBy: {$in: req.user.following}})
+    .populate("postedBy", "_id name")
+    .populate("comments.postedBy", "_id name")
+    .then(posts=>{
+        res.status(200).json(posts);
+    }).catch(err=> console.log(err));
+});
+
 //Get only user posts
 router.get("/myposts", requirelogin, (req,res)=>{
+    let user = req.user;
     Post.find({postedBy: req.user._id})
     .populate("postedBy", "_id name")
     .then(posts=>{
-        res.status(200).json(posts);
+        res.status(200).json({user,posts});
     }).catch(err=>console.log(err));
 })
 

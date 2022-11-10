@@ -80,6 +80,10 @@ a {
 
 }
 
+.update-pic-btn {
+  width: max-content;
+
+}
 
 
 .details {
@@ -105,6 +109,7 @@ a {
 .ac-details {
   display: flex;
   flex-wrap: wrap;
+  width: max-content;
 }
 
 .ac-details .number-details {
@@ -116,6 +121,12 @@ a {
 .display-picture {
   border-radius: 60%;
   border: 1px gray solid;
+  cursor: pointer;
+  max-width: 20%;
+  max-height: 20%;
+  width: 20%;
+  height: 20%;
+  background-color: white;
 }
 
 .ac-details {
@@ -212,7 +223,7 @@ hr {
 .login-btn {
   background-color: chocolate !important;
   margin: 4% 0% !important;
-  width: 40% !important;
+  width: fit-content !important;
   margin: 1rem auto !important;
 
 }

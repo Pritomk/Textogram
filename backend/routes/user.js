@@ -24,7 +24,7 @@ router.get("/:id", requirelogin, (req, res) => {
 
 router.put("/follow", requirelogin, (req, res) => {
     User.findByIdAndUpdate(req.body.followId, {
-        $push: { followwers: req.user._id }
+        $push: { followers: req.user._id }
     }, {
         new: true
     }, (err, result) => {
@@ -41,14 +41,14 @@ router.put("/follow", requirelogin, (req, res) => {
                 res.status(202).json(result);
             })
             .catch(err => {
-                return res.status(422).json({ error: err });
+                return res.status(401).json({ error: err });
             })
     })
 })
 
 router.put("/unfollow", requirelogin, (req, res) => {
-    User.findByIdAndUpdate(req.body.followId, {
-        $pull: { followwers: req.user._id }
+    User.findByIdAndUpdate(req.body.unFollowId, {
+        $pull: { followers: req.user._id }
     }, {
         new: true
     }, (err, result) => {
@@ -56,7 +56,7 @@ router.put("/unfollow", requirelogin, (req, res) => {
             return res.status(422).json({ error: err });
         }
         User.findByIdAndUpdate(req.user._id, {
-            $pull: { following: req.body.followId }
+            $pull: { following: req.body.unFollowId }
         }, {
             new: true
         })
@@ -66,7 +66,20 @@ router.put("/unfollow", requirelogin, (req, res) => {
             })
             .catch(err => {
                 return res.status(422).json({ error: err });
-            }); 
+            });
+    })
+})
+
+router.put("/updatepic", requirelogin, (req,res) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $set: {pic: req.body.pic}
+    }, {
+        new: true
+    }, (err,result)=> {
+        if (err) {
+            return res.status(422).json({error: err});
+        }
+        res.status(201).json(result);
     })
 })
 

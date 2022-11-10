@@ -13,7 +13,7 @@ router.get('/alluser',(req,res)=>{
 });
 
 router.post('/register', (req,res)=> {
-    const {name, email, password} = req.body;
+    const {name, email, password, pic} = req.body;
     if (!name || !email || !password) {
         res.status(422).json({
             error: "Details are not sufficent"
@@ -29,14 +29,16 @@ router.post('/register', (req,res)=> {
         }
 
         bcrypt.hash(password,12).then((hashedPassword) => {
-            const user = new User({name,email,password:hashedPassword});
+            const user = new User({name,email,password:hashedPassword,pic});
             user.save().then(user=>{
                 console.log(user.body);
                 let token = jwt.sign({_id: user._id}, JWT_SECRET);
+                let {_id, name, email, followers, following,pic} = user
                 res.json({
                     success: true,
                     token: token,
-                    msg:`User successfully saved with ${user}`
+                    msg:`User successfully saved with ${user}`,
+                    user: {_id,name,email,followers,following,pic}
                 });
             }).catch((err)=>{
                 return res.status(400).json({
@@ -66,12 +68,12 @@ router.post('/login', (req, res) => {
         bcrypt.compare(password, savedUser.password).then((doMatch)=>{
             if (doMatch) {
                 let token = jwt.sign({_id: savedUser._id}, JWT_SECRET);
-                let {_id, name, email} = savedUser;
+                let {_id, name, email, followers, following, pic} = savedUser;
                 res.status(201).json({
                     success: true,
                     msg: "Successfully logged in",
                     token: token,
-                    user: {_id, name, email}
+                    user: {_id, name, email, followers, following, pic}
                 })
             } else {
                 res.status(401).json({

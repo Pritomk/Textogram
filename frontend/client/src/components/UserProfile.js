@@ -9,7 +9,7 @@ const UserProfile = () => {
     const { state, dispatch } = useContext(UserContext);
     const [userProfile, setProfile] = useState(null);
     const { userId } = useParams();
-    // const [showfollow, setShowFollow] = useState(state ? !state.following.includes(userId) : true)
+    const [showfollow, setShowFollow] = useState(state ? !state.following.includes(userId) : true)
 
     useEffect(() => {
 
@@ -29,26 +29,68 @@ const UserProfile = () => {
             })
     }, [])
 
-    const followUser = (followId) => {
+    const followUser = () => {
+        
         fetch(`http://localhost:5000/profile/follow`, {
+            method: "put",
             headers: {
                 "Authorization": localStorage.getItem("auth_token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                followId: followId
+                followId: userId
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            // dispatch({type: "UPDATE", payload:{following:data.following, followers: data.followers}});
-        })
-        .catch(err=>console.log(err))
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                dispatch({type: "UPDATE", payload:{following:data.following, followers: data.followers}});
+                localStorage.setItem("user", JSON.stringify(data));
+                setProfile((prevState)=> {
+                    return {
+                        ...prevState,
+                        user: {
+                            ...prevState.user,
+                            followers:[...prevState.user.followers, data._id]
+                        }
+                    }
+                })
+                
+            })
+            .catch(err => console.log(err))
+            setShowFollow(false);
 
     }
 
     const unFollowUser = () => {
+        fetch(`http://localhost:5000/profile/unfollow`, {
+            method: "put",
+            headers: {
+                "Authorization": localStorage.getItem("auth_token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                unFollowId: userId
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                dispatch({type: "UPDATE", payload:{following:data.following, followers: data.followers}});
+                localStorage.setItem("user", JSON.stringify(data));
+                setProfile((prevState)=> {
+                    const newFollower = prevState.user.followers.filter(item=>item !== data._id )
+                    return {
+                        ...prevState,
+                        user: {
+                            ...prevState.user,
+                            followers:newFollower
+                        }
+                    }
+                })
+                
+            })
+            .catch(err => console.log(err))
+            setShowFollow(true);
 
     }
 
@@ -60,23 +102,23 @@ const UserProfile = () => {
                     <div className="details">
                         <img src="https://picsum.photos/200/200" className="display-picture" alt="Profile Pic" />
                         <div className="name-details">
-                            {/* <h1>{userProfile.user.name}</h1> */}
+                            <h1>{userProfile.user.name}</h1>
                             <div className="ac-details">
                                 <div className="number-details" id="post-number">{userProfile.posts.length} posts</div>
-                                <div className="number-details" id="follower-number">10 followers</div>
-                                <div className="number-details" id="following-number">10 following</div>
+                                <div className="number-details" id="follower-number">{userProfile.user.followers.length} followers</div>
+                                <div className="number-details" id="following-number">{userProfile.user.following.length} following</div>
                             </div>
                             {
-                                // (!showfollow) ?
+                                showfollow?
                                 <button className="btn waves-effect waves-light login-btn"
-                                    onClick={() => followUser(userProfile.user.name)}>
+                                    onClick={() => followUser(userProfile.user._id)}>
                                     Follow
                                 </button>
-                                // :
-                                // <button className="btn waves-effect waves-light login-btn"
-                                //     onClick={() => unFollowUser()}>
-                                //     Unfollow
-                                // </button>
+                                :
+                                <button className="btn waves-effect waves-light login-btn"
+                                    onClick={() => unFollowUser()}>
+                                    Unfollow
+                                </button>
                             }
 
                         </div>

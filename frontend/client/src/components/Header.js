@@ -23,30 +23,43 @@ const Header = () => {
                 </div>
             </div>
             <Link to={"/"}>
-            <Link to={state ? "/" : "/login"} className="logo">Textogram</Link>
+                <Link to={state ? "/" : "/login"}>
+                    <img className="" id="site-logo" src="https://res.cloudinary.com/do87gdwir/image/upload/v1668113820/logo_x0o5i4.png" alt="Textogram" />
+                </Link>
 
             </Link>
             <div className="search-header">
                 <form id="search-form">
-                    <input type="text" id="new-task-input" placeholder="New task..." />
+                    <input type="text" id="new-task-input" placeholder="Search..." />
                 </form>
             </div>
 
             <Link to={"/profile"}>
-                <div className="profile-item">
-                    <img src="https://lh3.googleusercontent.com/ogw/AOh-ky0JGrqUbwbPmizoOMk2jajsyzohMhmuRhvz-o2xgg=s32-c-mo"
-                        width="50rem" height="50rem" alt="Profile pic" id="profile-pic" onClick={() => { navigate("/profile") }} />
+                {
+                    state ?
+                        <div className="profile-item">
+                            <img src={state ? state.pic : ""}
+                                width="50rem" height="50rem" alt="Profile pic" id="profile-pic" onClick={() => { navigate("/profile") }} />
 
-                    <div className="profile-item-details">
-                        <div className="name">Pritom Karmakar</div>
-                    </div>
-                </div>
+                            <div className="profile-item-details">
+                                <div className="name">{state ? state.name : ""}</div>
+                            </div>
+                        </div> :
+                        <div></div>
+
+                }
 
             </Link>
-            <div>
-                <i className="material-icons logout-btn"
-                    onClick={() => Logout()}>power_settings_new</i>
-            </div>
+            {
+                state ?
+                    <div>
+                        <i className="material-icons logout-btn"
+                            onClick={() => Logout()}>power_settings_new</i>
+                    </div>
+                    :
+                    <div></div>
+
+            }
         </div>
     )
 }

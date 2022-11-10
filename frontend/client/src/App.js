@@ -11,6 +11,7 @@ import Header  from "./components/Header";
 import CreatePost from "./components/screens/CreatePost";
 import SideNavBar from "./components/SideNavBar";
 import UserProfile from "./components/UserProfile";
+import SubscribedPost from "./components/screens/SubscribedPost";
 import { initialState, reducer } from './reducers/useReducer';
 export const UserContext = createContext();
 
@@ -35,7 +36,7 @@ const Routing = () => {
 			<Route exact path="/profile" element={<Profile />} />
 			<Route path="/createpost" element={<CreatePost />} />
 			<Route path="/profile/:userId" element={<UserProfile />} />
-			
+			<Route path="/subposts" element={<SubscribedPost />} />
 		</Routes>
 	)
 }
@@ -46,7 +47,12 @@ function App() {
 		<UserContext.Provider value={{ state, dispatch }}>
 			<BrowserRouter>
 				<Header/>
-				<SideNavBar/>
+				{
+					state ?
+					<SideNavBar/> :
+					<div></div>
+
+				}
 				<Routing />
 			</BrowserRouter>
 		</UserContext.Provider>

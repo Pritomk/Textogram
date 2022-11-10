@@ -8,7 +8,7 @@ const SideNavBar = () => {
 
     return (
         <div>
-            <svg style={{ display: "none" }}>
+            {/* <svg style={{ display: "none" }}>
                 <defs>
 
                     <g id="home">
@@ -35,7 +35,7 @@ const SideNavBar = () => {
                     </g>
 
                 </defs>
-            </svg>
+            </svg> */}
 
 
             <div className="nav__cont">
@@ -52,12 +52,17 @@ const SideNavBar = () => {
 
                     <li class="nav__items ">
                         <img src="https://img.icons8.com/ios-glyphs/40/bad0db/upload--v1.png" />
-                        <li><Link to="/createpost">Upload</Link></li>,
+                        <Link to="/createpost">Upload</Link>
                     </li>
 
                     <li class="nav__items ">
                         <img src="https://img.icons8.com/ios-filled/50/bad0db/filled-chat.png" />
                         <a href="">Chat</a>
+                    </li>
+
+                    <li class="nav__items ">
+                        <img src="https://img.icons8.com/sf-regular-filled/48/bad0db/follow.png" />
+                        <Link to="/subposts">Subscribed Post</Link>
                     </li>
 
                 </ul>

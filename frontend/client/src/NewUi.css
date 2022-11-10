@@ -66,9 +66,8 @@ body {
 
 
 #site-logo {
-    filter: invert(40%);
-    align-self: center;
-    margin-top: 0.3rem;
+  max-width: 39%;
+  max-height: 94%;
 }
 
 .search-header {
