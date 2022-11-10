@@ -57,6 +57,7 @@ const SideNavBar = () => {
 
                     <li class="nav__items ">
                         <img src="https://img.icons8.com/ios-filled/50/bad0db/filled-chat.png" alt=""/>
+                        <Link to="/createpost">Chat</Link>
                     </li>
 
                     <li class="nav__items ">
