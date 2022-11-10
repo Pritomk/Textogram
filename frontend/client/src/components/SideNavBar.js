@@ -41,23 +41,22 @@ const SideNavBar = () => {
             <div className="nav__cont">
                 <ul class="nav">
                     <li class="nav__items ">
-                        <img src="https://img.icons8.com/ios-filled/40/bad0db/home.png" className="home-icon clicked" />
+                        <img src="https://img.icons8.com/ios-filled/40/bad0db/home.png" className="home-icon clicked" alt=""/>
                         <Link to="/" >Home</Link>
                     </li>
 
                     <li class="nav__items ">
-                        <img src="https://img.icons8.com/sf-ultralight-filled/40/bad0db/appointment-reminders.png" />
+                        <img src="https://img.icons8.com/sf-ultralight-filled/40/bad0db/appointment-reminders.png" alt=""/>
                         <a href="">Notification</a>
                     </li>
 
                     <li class="nav__items ">
-                        <img src="https://img.icons8.com/ios-glyphs/40/bad0db/upload--v1.png" />
+                        <img src="https://img.icons8.com/ios-glyphs/40/bad0db/upload--v1.png" alt=""/>
                         <Link to="/createpost">Upload</Link>
                     </li>
 
                     <li class="nav__items ">
-                        <img src="https://img.icons8.com/ios-filled/50/bad0db/filled-chat.png" />
-                        <a href="">Chat</a>
+                        <img src="https://img.icons8.com/ios-filled/50/bad0db/filled-chat.png" alt=""/>
                     </li>
 
                     <li class="nav__items ">
